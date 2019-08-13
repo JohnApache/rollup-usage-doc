@@ -1,0 +1,1 @@
+"use strict";const fn=()=>{console.log("this is a local lib")};exports.m=fn;
