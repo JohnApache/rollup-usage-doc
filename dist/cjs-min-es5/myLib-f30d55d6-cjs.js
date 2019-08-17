@@ -1,0 +1,1 @@
+"use strict";var fn=function(){console.log("this is a local lib")};exports.m=fn;

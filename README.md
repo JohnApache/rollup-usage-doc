@@ -10,6 +10,7 @@
 
 > npm install && npm run build 
 
+
 ## 安装方法
 > 首先必须在node,npm环境下
 
@@ -629,35 +630,38 @@ const watchOptions = {
   
 + **rollup-plugin-babel** 打包的时候使用babel编译js代码 
   > 使用说明 使用前需要安装babel环境, 这里使用的babel 7.x
-  > npm install @babel/cli @babel/core @babel/polyfill @babel/preset-env --save-dev
+  > npm install @babel/cli @babel/core @babel/polyfill @babel/preset-env @babel/plugin-transform-runtime --save-dev 
+  > npm install @babel/runtime-corejs3
   ```js
+    // rollup.config.js
     import babel from 'rollup-plugin-babel';
     export default {
         ...,
         plugins: [
-             babel({
-                include: [/^.+\.js$/],
-                exclude: 'node_modules/**',
-                extensions: ['.js'],
-                runtimeHelpers: true,
-                babelrc: false,
-                presets: [
-                    [
-                        "@babel/env",
-                        {
-                            targets: {
-                                edge: "17",
-                                firefox: "60",
-                                chrome: "67",
-                                safari: "11.1",
-                            },
-                            useBuiltIns: "usage",
-                        },
-                    ]
-                ],
+            babel({
+               runtimeHelpers: true,
             }),
         ]
     }
+  ```
+  ```js
+  // babel.config.js
+  const presets = [
+    '@babel/env'
+  ]
+
+  const plugins = [
+      [
+          '@babel/plugin-transform-runtime',
+          {
+              corejs: 3
+          }
+      ]
+  ]
+  module.exports = {
+      presets,
+      plugins,
+  }
   ```
 ## TODO
 ### rollup 插件的开发

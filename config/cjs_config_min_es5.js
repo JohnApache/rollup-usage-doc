@@ -22,25 +22,7 @@ export default {
           exclude: [],  // 排除
         }),
         babel({
-            include: [/^.+\.js$/],
-            exclude: 'node_modules/**',
-            extensions: ['.js'],
             runtimeHelpers: true,
-            babelrc: false,
-            presets: [
-                [
-                    "@babel/env",
-                    {
-                        targets: {
-                            edge: "17",
-                            firefox: "60",
-                            chrome: "67",
-                            safari: "11.1",
-                        },
-                        useBuiltIns: "usage",
-                    },
-                ]
-            ],
         }),
         terser({
             output: {
