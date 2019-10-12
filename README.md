@@ -663,6 +663,38 @@ const watchOptions = {
       plugins,
   }
   ```
+
++ **rollup-plugin-typescript2**
+    > 这是对原始rollup-plugin-typescript的重写，这个版本比原始版本慢一些，但是它将打印出打字稿的句法和语义诊断消息（毕竟使用打字稿的主要原因）。使用该插件还有一个重要的原因，该插件能生成 声明文件
+    
+    > 首先需要提供基础安装环境, 除了typescript基础环境 该插件需要依赖tslib去编译ts 代码
+    ```shell
+    yarn add rollup-plugin-typescript2 typescript tslib -D
+    ```
+    
+    使用方法很简单
+    ```js
+    // rollup.config.js
+    import typescript from 'rollup-plugin-typescript2';
+    import commonjs from 'rollup-plugin-commonjs';
+    export default {
+        ...,
+         plugins: [
+            typescript({
+                tsconfigOverride: {
+                    compilerOptions: {
+                        module: "ES2015",
+                        target: "ES2015"
+                    }
+                }
+            }),
+            commonjs({
+                extensions: ['.js', '.ts']
+            })
+        ],
+    }
+    ```
+      
 ## TODO
 ### rollup 插件的开发
 。。。
