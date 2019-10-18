@@ -3,46 +3,59 @@ import resolve from 'rollup-plugin-node-resolve';
 import common from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
 import {terser} from 'rollup-plugin-terser';
+import typescript from 'rollup-plugin-typescript2'
 import os from 'os';
 
 const cpuNums = os.cpus().length;
 export default {
     input: {
-        main: path.resolve(__dirname, './main/index.js'),
+        main: path.resolve(__dirname, './ts/index.ts'),
     },
     external: [
         'jquery',
-        // 'lodash'
     ],
     plugins: [
+        typescript({
+            tsconfigOverride: {
+                compilerOptions: {
+                    module: "ES2015"
+                }
+            }
+        }),
         resolve(),
         common({
           include: 'node_modules/**', // 包括 
           exclude: [],  // 排除
+          extensions: ['.js', '.ts']
         }),
         babel({
             runtimeHelpers: true,
+            extensions: ['.js', '.ts']
         }),
-        // terser({
-        //     output: {
-        //         comments: false
-        //     },
-        //     include: [/^.+\.js$/],
-        //     exclude: ['node_moudles/**'],
-        //     numWorkers: cpuNums,
-        //     sourcemap: false
-        // })
+        terser({
+            output: {
+                comments: false
+            },
+            include: [/^.+\.js$/],
+            exclude: ['node_moudles/**'],
+            numWorkers: cpuNums,
+            sourcemap: false
+        })
     ],
     output: {
-        dir: path.resolve(__dirname, 'dist/umd-min-es5'),
+        dir: path.resolve(__dirname, 'dist/ts-umd-min-es5'),
         format: 'umd',
         name: 'rollupTest',
         globals: {
             'jquery': '$',
-            [path.resolve(__dirname, './myLib/index.js')]: 'myLib'
         },
         entryFileNames: '[name]-[hash]-[format].js', 
         chunkFileNames: '[name]-[hash]-[format].js',
+        compact: false,
+        banner: '/* JohnApache JSLib */',
+        footer: '/* CopyRight @ 2019*/',
+        intro: '/* this is a introduction */',
+        outro: '/* this is an another introduction */',
         compact: true,
         extend: false,
         sourcemap: false,

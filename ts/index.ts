@@ -3,14 +3,12 @@ import testB from './dependB';
 import testC from './dependC';
 import $ from 'jquery';
 import _ from 'lodash';
-import myLib from '../myLib/index';
 import {testD1} from './dependD';
-const testFn = () => {
+const testFn = (): void => {
     console.log('testFn');
     testA();
     testB();
     testC();
-    myLib();
     testD1();
     const b = {
         test: 1
@@ -18,10 +16,10 @@ const testFn = () => {
     const a = {
         ...b,
         test2: 3
-    }
+    };
 
-    console.log(a);
     console.log([1].includes(1));
+    console.log(a);
     $(() => {
         _.chunk([[3, [3, 4]], [2, 1]], 3);
     })
