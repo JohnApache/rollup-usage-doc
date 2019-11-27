@@ -5,6 +5,7 @@ import $ from 'jquery';
 import _ from 'lodash';
 import myLib from '../myLib/index';
 import {testD1} from './dependD';
+import axios from 'axios';
 const testFn = () => {
     console.log('testFn');
     testA();
@@ -25,6 +26,8 @@ const testFn = () => {
     $(() => {
         _.chunk([[3, [3, 4]], [2, 1]], 3);
     })
+
+    console.log(axios.request);
 }
 
 

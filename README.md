@@ -694,7 +694,9 @@ const watchOptions = {
         ],
     }
     ```
-      
+
+> TIP: 官方维护的新版插件集合[https://github.com/rollup/plugins](https://github.com/rollup/plugins);
+
 ## TODO
 ### rollup 插件的开发
 。。。

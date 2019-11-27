@@ -3,6 +3,8 @@ import resolve from 'rollup-plugin-node-resolve';
 import common from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
 import {terser} from 'rollup-plugin-terser';
+import json from '@rollup/plugin-json';
+import replace from '@rollup/plugin-replace';
 import os from 'os';
 
 const cpuNums = os.cpus().length;
@@ -15,23 +17,30 @@ export default {
         // 'lodash'
     ],
     plugins: [
-        resolve(),
-        common({
-          include: 'node_modules/**', // 包括 
-          exclude: [],  // 排除
+        resolve({
+            mainFields: ['module', 'main'],
+            browser: true
         }),
+        json(),
         babel({
             runtimeHelpers: true,
         }),
-        // terser({
-        //     output: {
-        //         comments: false
-        //     },
-        //     include: [/^.+\.js$/],
-        //     exclude: ['node_moudles/**'],
-        //     numWorkers: cpuNums,
-        //     sourcemap: false
-        // })
+        common({
+            include: 'node_modules/**', // 包括 
+            exclude: [],  // 排除
+        }),
+        replace({
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+        }),
+        terser({
+            output: {
+                comments: false
+            },
+            include: [/^.+\.js$/],
+            exclude: ['node_moudles/**'],
+            numWorkers: cpuNums,
+            sourcemap: false
+        })
     ],
     output: {
         dir: path.resolve(__dirname, 'dist/umd-min-es5'),

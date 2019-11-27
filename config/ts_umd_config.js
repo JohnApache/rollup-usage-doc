@@ -3,7 +3,9 @@ import resolve from 'rollup-plugin-node-resolve';
 import common from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
 import {terser} from 'rollup-plugin-terser';
-import typescript from 'rollup-plugin-typescript2'
+import typescript from 'rollup-plugin-typescript2';
+import json from '@rollup/plugin-json';
+import replace from '@rollup/plugin-replace';
 import os from 'os';
 
 const cpuNums = os.cpus().length;
@@ -22,15 +24,22 @@ export default {
                 }
             }
         }),
-        resolve(),
-        common({
-          include: 'node_modules/**', // 包括 
-          exclude: [],  // 排除
-          extensions: ['.js', '.ts']
+        resolve({
+            mainFields: ['module', 'main'],
+            browser: true
         }),
+        json(),
         babel({
             runtimeHelpers: true,
             extensions: ['.js', '.ts']
+        }),
+        common({
+            include: 'node_modules/**', // 包括 
+            exclude: [],  // 排除
+            extensions: ['.js', '.ts']
+        }),
+        replace({
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
         }),
         terser({
             output: {
@@ -40,7 +49,7 @@ export default {
             exclude: ['node_moudles/**'],
             numWorkers: cpuNums,
             sourcemap: false
-        })
+        }),
     ],
     output: {
         dir: path.resolve(__dirname, 'dist/ts-umd-min-es5'),
