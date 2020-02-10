@@ -21,5 +21,5 @@ export default [
     umd_task,
     umd_min_es5_task,
     umd_min_es6_task,
-    ts_umd_task
+    ts_umd_task,
 ]
